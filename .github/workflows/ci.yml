@@ -1,0 +1,28 @@
+name: CI/CD Pantry Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test-and-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Unit Tests (CI)
+        run: npm test
+
+      - name: Security Scan (CS)
+        run: npm audit
